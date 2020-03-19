@@ -6,7 +6,6 @@
 from sqlite3.dbapi2 import Cursor
 
 from pandas import DataFrame
-
 from DataBase import DataBase
 from Student import Student
 from inputParseFuncs import *
@@ -16,12 +15,12 @@ from Messages import *
 def printSelection(table_contents):
     df = DataFrame(table_contents,
                    columns=['Student Id', 'First Name', 'Last Name', 'GPA', 'Major', 'Faculty Advisor'])
-    print(df)
+    print(df.to_string(index=False))  # remove row indexing on pandas DataFrame
 
 
-# swap below to use own database name
+# swap comment of next 2 lines below to use own database name
 dbname = 'StudentDB2'
-# dbname = getStringIn("enter database name in local folder")
+# dbname = getStringIn("enter database name in local folder: ")
 
 db = DataBase(dbname)
 c = db.cursor
@@ -73,7 +72,7 @@ while isRunning:
         input_param = (0, studID,)
         deleted = 1
         selection = c.execute('SELECT StudentId, FirstName, LastName, GPA, Major, FacultyAdvisor FROM '
-                              'Student WHERE  isDeleted = ? AND StudentId = ?', input_param,)  # type: Cursor
+                              'Student WHERE  isDeleted = ? AND StudentId = ?', input_param, )  # type: Cursor
         # confirm deletion
         print(delete_confirmation)
         printSelection(selection)
@@ -91,18 +90,18 @@ while isRunning:
             input_param = ('0', stud_major)
 
             selection = c.execute('SELECT StudentId, FirstName, LastName, GPA, Major, FacultyAdvisor FROM '
-                                  'Student WHERE  isDeleted = ? AND Major = ?', input_param,)
+                                  'Student WHERE  isDeleted = ? AND Major = ?', input_param, )
         elif userChoice == 2:  # gpa
             stud_GPA = getUserNumFloat(GPA_prompt)
             input_param = ('0', stud_GPA)
             selection = c.execute('SELECT StudentId, FirstName, LastName, GPA, Major, FacultyAdvisor FROM '
-                                  'Student WHERE  isDeleted = ? AND GPA = ?', input_param,)
+                                  'Student WHERE  isDeleted = ? AND GPA = ?', input_param, )
         elif userChoice == 3:  # search by advisor
             facAdv = getStringIn(faculty_advisor_prompt)
             input_param = ('0', facAdv)
             selection = c.execute('SELECT StudentId, FirstName, LastName, GPA, Major, FacultyAdvisor FROM '
-                                  'Student WHERE  isDeleted = ? AND FacultyAdvisor = ?', input_param,)
-        if 1 <= userChoice <= 3:
+                                  'Student WHERE  isDeleted = ? AND FacultyAdvisor = ?', input_param, )
+        if 1 <= userChoice <= 3:  # print only if user issued a correct command
             printSelection(selection)
     elif userChoice == 0:
         isRunning = False

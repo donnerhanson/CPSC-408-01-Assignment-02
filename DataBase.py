@@ -6,7 +6,7 @@ class DataBase:
         self.databaseName = databaseName
         self.conn = sqlite3.connect(self.databaseName)
         self.cursor = self.conn.cursor()  # allows python code to execute SQL statements
-        print ('connected to... ', self.databaseName)
+        print ("connected to... " + self.databaseName)
 
     def Cursor(self):
         return self.cursor
