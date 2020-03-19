@@ -1,4 +1,4 @@
-# Python 2.7
+# Python 3.7
 # Donner Hanson
 # March 14 2020
 # CPSC 408-01
@@ -96,11 +96,11 @@ while isRunning:
             input_param = ('0', stud_GPA)
             selection = c.execute('SELECT StudentId, FirstName, LastName, GPA, Major, FacultyAdvisor FROM '
                                   'Student WHERE  isDeleted = ? AND GPA = ?', input_param, )
-        elif userChoice == 3:  # search by advisor
+        elif userChoice == 3:  # search by advisor or similar advisor name/spelling
             facAdv = getStringIn(faculty_advisor_prompt)
             input_param = ('0', facAdv)
             selection = c.execute('SELECT StudentId, FirstName, LastName, GPA, Major, FacultyAdvisor FROM '
-                                  'Student WHERE  isDeleted = ? AND FacultyAdvisor = ?', input_param, )
+                                  'Student WHERE  isDeleted = ? AND FacultyAdvisor LIKE ?', input_param, )
         if 1 <= userChoice <= 3:  # print only if user issued a correct command
             printSelection(selection)
     elif userChoice == 0:
